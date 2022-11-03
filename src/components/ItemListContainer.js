@@ -37,12 +37,6 @@ const ItemListContainer = () => {
   },[id])
 
   return (
-    // <main>
-    //     <div>
-    //       { items.length == 0 ? <h1>Cargando productos...</h1> : <ItemList productos={items}/> }
-    //     </div>
-    // </main>
-
     <>
      <Container maxW='1200' minH='100vh' p='20px'> 
         {
