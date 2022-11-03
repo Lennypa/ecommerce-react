@@ -38,7 +38,7 @@ const ItemListContainer = () => {
 
   return (
     <>
-     <Container maxW='1200' minH='100vh' p='20px'> 
+     <Container maxW='1200' minH='100vh' p='20px' mt='50px' mb='50px'> 
         {
           items.length ? (
             <SimpleGrid columns={{sm: 2, md: 4}} spacing='40px'>
