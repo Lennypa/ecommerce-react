@@ -1,42 +1,60 @@
 import React from 'react';
 import LogoComponent from './LogoComponent';
+import { Link as RouteLink } from 'react-router-dom';
 import {
   Box,
   Flex,
-  Avatar,
+  Text,
   HStack,
-  Link,
+  Link as ChakraLink,
   IconButton,
-  Button,
-  Menu,
-  MenuButton,
-  MenuList,
-  MenuItem,
-  MenuDivider,
   useDisclosure,
   useColorModeValue,
   Stack,
+  Icon,
+  Button,
+  useColorMode,
 } from '@chakra-ui/react';
-import { HamburgerIcon, CloseIcon, AddIcon } from '@chakra-ui/icons';
+import { 
+  HamburgerIcon, 
+  CloseIcon,
+  MoonIcon,
+  SunIcon
+} from '@chakra-ui/icons';
+import { FiShoppingCart } from 'react-icons/fi';
+import CartWidget from './CartWidget';
 
-const Links = ['Dashboard', 'Projects', 'Team'];
+const Links = [
+  {
+    path: '/',
+    name: 'Inicio'  
+  },
+  {
+    path: '/category/smartphones',
+    name: 'Smartphones'
+  },
+  {
+    path: '/category/laptops',
+    name: 'Laptops'
+  }
+];
 
-const NavLink = ({ children }) => (
-  <Link
+const NavLinkComponent = ({ link }) => (
+  <ChakraLink 
+    as={RouteLink} 
+    to={link.path}
     px={2}
     py={1}
     rounded={'md'}
-    _hover={{
-      textDecoration: 'none',
-      bg: useColorModeValue('gray.200', 'gray.700'),
-    }}
-    href={'#'}>
-    {children}
-  </Link>
+    _hover={{ textDecoration: 'none', bg: useColorModeValue('gray.200', 'gray.700') }}
+  >
+    <Text fontSize='m'>{link.name}</Text>
+  </ChakraLink>
 );
 
 export default function NavBar() {
   const { isOpen, onOpen, onClose } = useDisclosure();
+  const { colorMode, toggleColorMode } = useColorMode();
 
   return (
     <>
@@ -49,57 +67,36 @@ export default function NavBar() {
             display={{ md: 'none' }}
             onClick={isOpen ? onClose : onOpen}
           />
-          <HStack spacing={8} alignItems={'center'}>
-            <Box>
-              <LogoComponent/>
-            </Box>
+          <HStack spacing={8} alignItems={'center'}>           
             <HStack
               as={'nav'}
               spacing={4}
               display={{ base: 'none', md: 'flex' }}>
+              <Box>
+                <RouteLink to='/' >
+                  <LogoComponent/>
+                </RouteLink>
+              </Box>
               {Links.map((link) => (
-                <NavLink key={link}>{link}</NavLink>
+                <NavLinkComponent key={link.name} link={link}></NavLinkComponent>
               ))}
             </HStack>
           </HStack>
           <Flex alignItems={'center'}>
-            <Button
-              variant={'solid'}
-              colorScheme={'teal'}
-              size={'sm'}
-              mr={4}
-              leftIcon={<AddIcon />}>
-              Carrito
-            </Button>
-            <Menu>
-              <MenuButton
-                as={Button}
-                rounded={'full'}
-                variant={'link'}
-                cursor={'pointer'}
-                minW={0}>
-                <Avatar
-                  size={'sm'}
-                  src={
-                    'https://images.unsplash.com/photo-1493666438817-866a91353ca9?ixlib=rb-0.3.5&q=80&fm=jpg&crop=faces&fit=crop&h=200&w=200&s=b616b2c5b373a80ffc9636ba24f7a4a9'
-                  }
-                />
-              </MenuButton>
-              <MenuList>
-                <MenuItem>Link 1</MenuItem>
-                <MenuItem>Link 2</MenuItem>
-                <MenuDivider />
-                <MenuItem>Link 3</MenuItem>
-              </MenuList>
-            </Menu>
+            <RouteLink to="/carrito">
+             <CartWidget/>
+            </RouteLink>
+            <Button m={3} onClick={toggleColorMode}>
+              {colorMode === 'light' ? <MoonIcon /> : <SunIcon />}
+            </Button>         
           </Flex>
         </Flex>
 
         {isOpen ? (
           <Box pb={4} display={{ md: 'none' }}>
-            <Stack as={'nav'} spacing={4}>
+            <Stack as={'nav'} spacing={3} onClick={isOpen ? onClose : onOpen}>
               {Links.map((link) => (
-                <NavLink key={link}>{link}</NavLink>
+                <NavLinkComponent key={link.name} link={link}></NavLinkComponent>
               ))}
             </Stack>
           </Box>
