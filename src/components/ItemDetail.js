@@ -17,6 +17,7 @@ import {
   } from '@chakra-ui/react';
 
   import { MdLocalShipping } from 'react-icons/md';
+import ItemCount from './ItemCount';
 
 const ItemDetail = ({title, thumbnail, brand, id, price, stock, description}) => {
   return (
@@ -50,6 +51,9 @@ const ItemDetail = ({title, thumbnail, brand, id, price, stock, description}) =>
                 fontSize={'2xl'}>
                 ${price}
               </Text>
+            </Box>
+            <Box>
+              <ItemCount/>
             </Box>
   
             <Stack
